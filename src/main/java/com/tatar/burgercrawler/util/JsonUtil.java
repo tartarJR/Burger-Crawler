@@ -1,6 +1,7 @@
 package com.tatar.burgercrawler.util;
 
 import com.tatar.burgercrawler.constant.JsonConstants;
+import com.tatar.burgercrawler.model.Venue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -14,9 +15,9 @@ public class JsonUtil {
     private static final Logger log = LoggerFactory.getLogger(JsonUtil.class);
 
     // TODO find a more efficient way to parse JSON (Gson or Jackson)
-    public static List<String> getVenueIdList(String rawJson) {
+    public static List<Venue> getVenueIdList(String rawJson) {
 
-        List<String> venueIdList = new ArrayList<>();
+        List<Venue> venueList = new ArrayList<>();
 
         if (rawJson != null) {
             JSONObject fourSquareResponse = new JSONObject(rawJson); // Transform raw JSON String to JSONObject for easy processing
@@ -27,19 +28,24 @@ public class JsonUtil {
                 When I tested the API with different parameters the groups array always had one element which is recommended places
                 So I just get these places for further data processing
             */
-            JSONObject recommendedPlaces = groups.getJSONObject(0);
-            JSONArray items = recommendedPlaces.getJSONArray(JsonConstants.KEY_ITEMS); // extract items array from recommendedPlaces JSONObject
+            JSONObject recommendedPlacesJson = groups.getJSONObject(0);
+            JSONArray itemsJson = recommendedPlacesJson.getJSONArray(JsonConstants.KEY_ITEMS); // extract items array from recommendedPlaces JSONObject
 
             // 'iterate through items array and get item ids
-            for (int i = 0; i < items.length(); i++) {
+            for (int i = 0; i < itemsJson.length(); i++) {
 
-                JSONObject item = items.getJSONObject(i);
-                JSONObject venue = item.getJSONObject(JsonConstants.KEY_VENUE);
+                JSONObject itemJson = itemsJson.getJSONObject(i);
+                JSONObject venueJson = itemJson.getJSONObject(JsonConstants.KEY_VENUE);
 
-                venueIdList.add(venue.getString(JsonConstants.KEY_ID));
+                String venueId = venueJson.getString(JsonConstants.KEY_ID);
+                String venueName = venueJson.getString(JsonConstants.KEY_NAME);
+
+                Venue venue = new Venue(venueId, venueName);
+
+                venueList.add(venue);
             }
         }
 
-        return venueIdList;
+        return venueList;
     }
 }
