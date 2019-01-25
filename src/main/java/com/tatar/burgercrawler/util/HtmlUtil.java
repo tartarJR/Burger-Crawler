@@ -9,27 +9,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HtmlUtil {
 
     private static final Logger log = LoggerFactory.getLogger(HtmlUtil.class);
 
-    public static List<String> getPhotoUrl(String id) {
-
-        List<String> photoUrlList = new ArrayList<>();
+    public static List<String> getPhotoUrl(String venueId, List<String> photoUrlList) {
 
         try {
-            Document doc = Jsoup.connect(HtmlConstants.BASE_URL + id + HtmlConstants.PATH_PHOTOS).get();
+            Document doc = Jsoup.connect(HtmlConstants.BASE_URL + venueId + HtmlConstants.PATH_PHOTOS).get();
             Elements photosBlock = doc.select(HtmlConstants.TARGET_DIV);
             Elements photos = photosBlock.first().children();
 
             for (Element photo : photos) {
-                Element targetPhoto = photo.getElementsByClass(HtmlConstants.TARGER_PHOTO_CLASS).first();
+                Element targetPhoto = photo.getElementsByClass(HtmlConstants.TARGET_PHOTO_CLASS).first();
 
                 if (targetPhoto != null) {
-                    String photoUrl = targetPhoto.absUrl(HtmlConstants.TARGER_PHOTO_SRC);
+                    String photoUrl = targetPhoto.absUrl(HtmlConstants.TARGET_PHOTO_SRC);
                     photoUrlList.add(photoUrl);
                 }
             }

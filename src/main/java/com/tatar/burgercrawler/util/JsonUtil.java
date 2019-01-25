@@ -22,19 +22,19 @@ public class JsonUtil {
         if (rawJson != null) {
             JSONObject fourSquareResponse = new JSONObject(rawJson); // Transform raw JSON String to JSONObject for easy processing
             JSONObject response = fourSquareResponse.getJSONObject(JsonConstants.KEY_RESPONSE); // Extract response JSONObject from fourSquareResponse
-            JSONArray groups = response.getJSONArray(JsonConstants.KEY_GROUPS); // Extract groups JSONArray from response
+            JSONArray groupsJsonArray = response.getJSONArray(JsonConstants.KEY_GROUPS); // Extract groups JSONArray from response
 
             /*  Get recommendedPlaces from groups JSONArray.
                 When I tested the API with different parameters the groups array always had one element which is recommended places
                 So I just get these places for further data processing
             */
-            JSONObject recommendedPlacesJson = groups.getJSONObject(0);
-            JSONArray itemsJson = recommendedPlacesJson.getJSONArray(JsonConstants.KEY_ITEMS); // extract items array from recommendedPlaces JSONObject
+            JSONObject recommendedPlacesJson = groupsJsonArray.getJSONObject(0);
+            JSONArray itemsJsonArray = recommendedPlacesJson.getJSONArray(JsonConstants.KEY_ITEMS); // extract items array from recommendedPlaces JSONObject
 
-            // 'iterate through items array and get item ids
-            for (int i = 0; i < itemsJson.length(); i++) {
+            // 'iterate through items JSONArray array and get item ids
+            for (int i = 0; i < itemsJsonArray.length(); i++) {
 
-                JSONObject itemJson = itemsJson.getJSONObject(i);
+                JSONObject itemJson = itemsJsonArray.getJSONObject(i);
                 JSONObject venueJson = itemJson.getJSONObject(JsonConstants.KEY_VENUE);
 
                 String venueId = venueJson.getString(JsonConstants.KEY_ID);
