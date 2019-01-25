@@ -1,6 +1,7 @@
 package com.tatar.burgercrawler.util;
 
 import com.tatar.burgercrawler.constant.HtmlConstants;
+import com.tatar.burgercrawler.model.Photo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,29 +17,44 @@ public class HtmlUtil {
 
     private static final Logger log = LoggerFactory.getLogger(HtmlUtil.class);
 
-    public static List<String> getPhotoUrlList(String venueId) {
+    public static List<Photo> getPhotoList(String venueId) {
 
-        List<String> photoUrlList = new ArrayList<>();
+        List<Photo> photoList = new ArrayList<>();
 
         try {
-            Document doc = Jsoup.connect(HtmlConstants.BASE_URL + venueId + HtmlConstants.PATH_PHOTOS).get();
-            Elements photosBlock = doc.select(HtmlConstants.TARGET_DIV);
-            Elements photos = photosBlock.first().children();
 
-            for (Element photo : photos) {
-                Element targetPhoto = photo.getElementsByClass(HtmlConstants.TARGET_PHOTO_CLASS).first();
+            log.debug("VENUE URL: " + HtmlConstants.BASE_URL + venueId + HtmlConstants.PATH_PHOTOS);
+
+            Document doc = Jsoup.connect(HtmlConstants.BASE_URL + venueId + HtmlConstants.PATH_PHOTOS).get();
+            Elements photosBlockDiv = doc.select(HtmlConstants.TARGET_DIV);
+            Elements images = photosBlockDiv.first().children();
+
+            for (Element image : images) {
+                Element targetPhoto = image.getElementsByClass(HtmlConstants.TARGET_PHOTO_CLASS).first();
+                Element targetMetaDiv = image.getElementsByClass(HtmlConstants.TARGET_META_CLASS).first();
+                Element targetDateDiv = targetMetaDiv.getElementsByClass(HtmlConstants.TARGET_DATE_CLASS).last();
+
+                String photoUrl = null;
+                String photoDate = null;
 
                 if (targetPhoto != null) {
-                    String photoUrl = targetPhoto.absUrl(HtmlConstants.TARGET_PHOTO_SRC);
-                    photoUrlList.add(photoUrl);
+                    photoUrl = targetPhoto.absUrl(HtmlConstants.TARGET_PHOTO_SRC);
                 }
+
+                if (targetDateDiv != null) {
+                    photoDate = targetDateDiv.text();
+                }
+
+                Photo photo = new Photo(photoUrl, photoDate);
+
+                photoList.add(photo);
             }
 
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
 
-        return photoUrlList;
+        return photoList;
     }
 
 }
