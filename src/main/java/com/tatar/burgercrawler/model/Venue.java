@@ -11,6 +11,11 @@ public class Venue {
     public Venue() {
     }
 
+    public Venue(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Venue(String id, String name, List<String> photoUrlList) {
         this.id = id;
         this.name = name;
