@@ -1,14 +1,16 @@
 package com.tatar.burgercrawler.model;
 
+import java.util.Date;
+
 public class Photo {
 
     private String url;
-    private String date;
+    private Date date;
 
     public Photo() {
     }
 
-    public Photo(String url, String date) {
+    public Photo(String url, Date date) {
         this.url = url;
         this.date = date;
     }
@@ -21,11 +23,11 @@ public class Photo {
         this.url = url;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }
