@@ -15,7 +15,7 @@ public class JsonUtil {
     private static final Logger log = LoggerFactory.getLogger(JsonUtil.class);
 
     // TODO find a more efficient way to parse JSON (Gson or Jackson)
-    public static List<Venue> getVenueIdList(String rawJson) {
+    public static List<Venue> getVenueList(String rawJson) {
 
         List<Venue> venueList = new ArrayList<>();
 

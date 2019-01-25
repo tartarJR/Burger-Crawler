@@ -9,13 +9,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HtmlUtil {
 
     private static final Logger log = LoggerFactory.getLogger(HtmlUtil.class);
 
-    public static List<String> getPhotoUrl(String venueId, List<String> photoUrlList) {
+    public static List<String> getPhotoUrlList(String venueId) {
+
+        List<String> photoUrlList = new ArrayList<>();
 
         try {
             Document doc = Jsoup.connect(HtmlConstants.BASE_URL + venueId + HtmlConstants.PATH_PHOTOS).get();
