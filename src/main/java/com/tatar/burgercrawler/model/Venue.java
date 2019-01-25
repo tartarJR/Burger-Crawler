@@ -6,7 +6,7 @@ public class Venue {
 
     private String id;
     private String name;
-    private List<String> photoUrlList;
+    private List<Photo> photoList;
 
     public Venue() {
     }
@@ -16,10 +16,10 @@ public class Venue {
         this.name = name;
     }
 
-    public Venue(String id, String name, List<String> photoUrlList) {
+    public Venue(String id, String name, List<Photo> photoList) {
         this.id = id;
         this.name = name;
-        this.photoUrlList = photoUrlList;
+        this.photoList = photoList;
     }
 
     public String getId() {
@@ -38,11 +38,11 @@ public class Venue {
         this.name = name;
     }
 
-    public List<String> getPhotoUrlList() {
-        return photoUrlList;
+    public List<Photo> getPhotoList() {
+        return photoList;
     }
 
-    public void setPhotoUrlList(List<String> photoUrlList) {
-        this.photoUrlList = photoUrlList;
+    public void setPhotoList(List<Photo> photoList) {
+        this.photoList = photoList;
     }
 }
