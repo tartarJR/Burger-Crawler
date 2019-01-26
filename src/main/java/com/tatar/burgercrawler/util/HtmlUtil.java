@@ -29,10 +29,9 @@ public class HtmlUtil {
             Elements photosBlockDiv = doc.select(HtmlConstants.TARGET_DIV);
             Elements images = photosBlockDiv.first().children();
 
-            for (Element image : images) {
+            for (Element image : images.subList(0, Math.min(30, images.size()))) {
                 Element targetPhoto = image.getElementsByClass(HtmlConstants.TARGET_PHOTO_CLASS).first();
                 Element targetMetaDiv = image.getElementsByClass(HtmlConstants.TARGET_META_CLASS).first();
-                Element targetDateDiv = targetMetaDiv.getElementsByClass(HtmlConstants.TARGET_DATE_CLASS).last();
 
                 String photoUrl = null;
                 String photoDate = null;
@@ -41,11 +40,11 @@ public class HtmlUtil {
                     photoUrl = targetPhoto.absUrl(HtmlConstants.TARGET_PHOTO_SRC);
                 }
 
-                if (targetDateDiv != null) {
-                    photoDate = targetDateDiv.text();
+                if (targetMetaDiv != null) {
+                    photoDate = targetMetaDiv.getElementsByClass(HtmlConstants.TARGET_DATE_CLASS).last().text();
                 }
 
-                Photo photo = new Photo(photoUrl, photoDate);
+                Photo photo = new Photo(photoUrl, DateUtil.convertDateStringToDate(photoDate));
 
                 photoList.add(photo);
             }
