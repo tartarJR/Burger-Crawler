@@ -11,25 +11,26 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class HtmlUtil {
 
-    private static final Logger log = LoggerFactory.getLogger(HtmlUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(HtmlUtil.class);
 
     private HtmlUtil() {
         throw new UnsupportedOperationException();
     }
 
-    public static List<Photo> getPhotoList(String venueId) {
+    public static List<Photo> getPhotoList(String venueId, String venueName) {
 
         List<Photo> photoList = new ArrayList<>();
 
         try {
 
-            log.debug("VENUE URL: " + HtmlConstants.BASE_URL + venueId + HtmlConstants.PATH_PHOTOS);
+            logger.info("VENUE URL: " + HtmlConstants.BASE_URL + convertNameToSlug(venueName) + venueId + HtmlConstants.PATH_PHOTOS);
 
-            Document doc = Jsoup.connect(HtmlConstants.BASE_URL + venueId + HtmlConstants.PATH_PHOTOS).get();
+            Document doc = Jsoup.connect(HtmlConstants.BASE_URL + convertNameToSlug(venueName) + venueId + HtmlConstants.PATH_PHOTOS).timeout(360 * 1000).get();
             Elements photosBlockDiv = doc.select(HtmlConstants.TARGET_DIV);
             Elements images = photosBlockDiv.first().children();
 
@@ -51,13 +52,47 @@ public final class HtmlUtil {
                 Photo photo = new Photo(photoUrl, DateUtil.convertDateStringToDate(photoDate));
 
                 photoList.add(photo);
+
+                Collections.sort(photoList);
             }
 
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
         }
 
         return photoList;
+    }
+
+    private static String convertNameToSlug(String venueName) {
+
+        String[] nameWords = venueName.toLowerCase().split(" ");
+
+        String slug;
+
+        if (nameWords.length == 0) {
+            slug = venueName.toLowerCase();
+        } else {
+            StringBuilder slugBuilder = new StringBuilder();
+
+            for (int i = 0; i < nameWords.length; i++) {
+
+                nameWords[i] = nameWords[i].replaceAll("[()]", "");
+
+                if (i + 1 != nameWords.length) {
+                    if (nameWords[i].equals("&")) {
+                        slugBuilder.append("-");
+                    } else {
+                        slugBuilder.append(nameWords[i]).append("-");
+                    }
+                } else {
+                    slugBuilder.append(nameWords[i]);
+                }
+            }
+
+            slug = slugBuilder.toString();
+        }
+
+        return slug + "/";
     }
 
 }
