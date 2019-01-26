@@ -2,7 +2,7 @@ package com.tatar.burgercrawler.model;
 
 import java.util.Date;
 
-public class Photo {
+public class Photo implements Comparable<Photo> {
 
     private String url;
     private Date date;
@@ -29,5 +29,14 @@ public class Photo {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public int compareTo(Photo o) {
+        if (getDate() == null || o.getDate() == null) {
+            return 0;
+        }
+
+        return getDate().compareTo(o.getDate());
     }
 }
