@@ -10,9 +10,13 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonUtil {
+public final class JsonUtil {
 
     private static final Logger log = LoggerFactory.getLogger(JsonUtil.class);
+
+    private JsonUtil() {
+        throw new UnsupportedOperationException();
+    }
 
     // TODO find a more efficient way to parse JSON (Gson or Jackson)
     public static List<Venue> getVenueList(String rawJson) {

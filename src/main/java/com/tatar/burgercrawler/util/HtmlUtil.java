@@ -13,9 +13,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HtmlUtil {
+public final class HtmlUtil {
 
     private static final Logger log = LoggerFactory.getLogger(HtmlUtil.class);
+
+    private HtmlUtil() {
+        throw new UnsupportedOperationException();
+    }
 
     public static List<Photo> getPhotoList(String venueId) {
 

@@ -11,9 +11,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class DateUtil {
+public final class DateUtil {
 
     private static final Logger log = LoggerFactory.getLogger(DateUtil.class);
+
+    private DateUtil() {
+        throw new UnsupportedOperationException();
+    }
+
 
     public static Date convertDateStringToDate(String dateString) {
 
