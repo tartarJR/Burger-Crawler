@@ -8,7 +8,7 @@ public class HelloWorldController {
 
     @GetMapping("/hello")
     public String helloWorld() {
-        return "Hello Qminder!";
+        return "{ \"title\": \"example glossary\"}";
     }
 
 }

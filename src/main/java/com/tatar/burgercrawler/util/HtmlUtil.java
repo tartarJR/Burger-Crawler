@@ -76,7 +76,7 @@ public final class HtmlUtil {
 
             for (int i = 0; i < nameWords.length; i++) {
 
-                nameWords[i] = nameWords[i].replaceAll("[()]", "");
+                nameWords[i] = nameWords[i].replaceAll("[()']", "");
 
                 if (i + 1 != nameWords.length) {
                     if (nameWords[i].equals("&")) {
