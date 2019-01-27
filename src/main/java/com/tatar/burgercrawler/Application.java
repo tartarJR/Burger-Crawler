@@ -16,9 +16,9 @@ public class Application {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
 
         threadPoolTaskExecutor.setThreadNamePrefix("AsyncHtmlParser-");
-        threadPoolTaskExecutor.setCorePoolSize(3);
-        threadPoolTaskExecutor.setMaxPoolSize(3);
-        threadPoolTaskExecutor.setQueueCapacity(600);
+        threadPoolTaskExecutor.setCorePoolSize(15);
+        threadPoolTaskExecutor.setMaxPoolSize(15);
+        threadPoolTaskExecutor.setQueueCapacity(3000);
         threadPoolTaskExecutor.afterPropertiesSet();
 
         return threadPoolTaskExecutor;
