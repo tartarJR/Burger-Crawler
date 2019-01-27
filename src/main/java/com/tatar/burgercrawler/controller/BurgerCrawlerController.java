@@ -39,12 +39,10 @@ public class BurgerCrawlerController {
 
         long startTime = System.nanoTime();
 
-        logger.info("Retrieving venues..");
         List<Venue> venues = venueService.getVenues();
 
         List<CompletableFuture<ApiResponse>> completableFutures = new ArrayList<>();
 
-        logger.info("Parsing html for photos..");
         for (Venue venue : venues) {
             CompletableFuture<ApiResponse> responseFuture = burgerCrawlerService.getPhotoList(venue.getId(), venue.getName());
             completableFutures.add(responseFuture);
@@ -55,7 +53,6 @@ public class BurgerCrawlerController {
 
         List<ApiResponse> burgerVenues = new ArrayList<>();
 
-        logger.info("Retrieving photos from CompletableFuture list..");
         try {
             for (CompletableFuture<ApiResponse> responseFuture : completableFutures) {
                 if (!responseFuture.get().getlatestBurgerPhotoUrl().equals("")) {
@@ -69,7 +66,6 @@ public class BurgerCrawlerController {
         long endTime = System.nanoTime();
         long timeElapsed = endTime - startTime;
 
-        logger.info("Done, burger venue size: " + burgerVenues.size());
         logger.info("Execution time in seconds : " + timeElapsed / 1000000000);
 
         return burgerVenues;
