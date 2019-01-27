@@ -2,6 +2,8 @@ package com.tatar.burgercrawler.constant;
 
 public class ApiConstants {
 
+    public static final String ML_BASE_URL = "https://pplkdijj76.execute-api.eu-west-1.amazonaws.com/prod/recognize";
+
     private static final String BASE_URL = "https://api.foursquare.com/v2/venues/explore?";
 
     private static final String CLIENT_ID = ""; // TODO need a more secure way to store this
@@ -17,5 +19,6 @@ public class ApiConstants {
             "&client_secret=" + CLIENT_SECRET +
             "&v=" + VERSION +
             "&near=" + NEAR +
-            "&categoryId=" + CATEGORY_ID;
+            "&categoryId=" + CATEGORY_ID +
+            "&offset=60&limit=10";
 }
