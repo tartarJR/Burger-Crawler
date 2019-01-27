@@ -23,6 +23,7 @@ public class VenueService {
     }
 
     public List<Venue> getVenues() {
+
         String rawJson = restTemplate.getForObject(ApiConstants.REQUEST_URL, String.class); // raw JSON response from Foursquare API
 
         // return a list of Venue(name and id only) from response JSON
