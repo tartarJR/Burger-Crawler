@@ -29,11 +29,6 @@ public class BurgerCrawlerController {
         this.burgerCrawlerService = burgerCrawlerService;
     }
 
-    @GetMapping("/hello")
-    public String test() {
-        return "Hello Qminder!";
-    }
-
     @GetMapping("/venues/burger-venues")
     public List<ApiResponse> getBurgerVenues() {
 
