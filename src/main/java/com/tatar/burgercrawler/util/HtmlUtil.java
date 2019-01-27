@@ -27,27 +27,15 @@ public final class HtmlUtil {
         List<Photo> photoList = new ArrayList<>();
 
         try {
-
-            logger.info("VENUE URL: " + HtmlConstants.BASE_URL + convertNameToSlug(venueName) + venueId + HtmlConstants.PATH_PHOTOS);
-
             Document doc = Jsoup.connect(HtmlConstants.BASE_URL + convertNameToSlug(venueName) + venueId + HtmlConstants.PATH_PHOTOS).userAgent("Mozilla").timeout(720 * 1000).get();
-            Elements photosBlockDiv = doc.select(HtmlConstants.TARGET_DIV);
-            Elements images = photosBlockDiv.first().children();
+            Elements images = doc.select("div.photosBlock div.photo:lt(10)");
 
-            for (Element image : images.subList(0, Math.min(30, images.size()))) {
+            for (Element image : images) {
                 Element targetPhoto = image.getElementsByClass(HtmlConstants.TARGET_PHOTO_CLASS).first();
                 Element targetMetaDiv = image.getElementsByClass(HtmlConstants.TARGET_META_CLASS).first();
 
-                String photoUrl = null;
-                String photoDate = null;
-
-                if (targetPhoto != null) {
-                    photoUrl = targetPhoto.absUrl(HtmlConstants.TARGET_PHOTO_SRC);
-                }
-
-                if (targetMetaDiv != null) {
-                    photoDate = targetMetaDiv.getElementsByClass(HtmlConstants.TARGET_DATE_CLASS).last().text();
-                }
+                String photoUrl = targetPhoto.absUrl(HtmlConstants.TARGET_PHOTO_SRC);
+                String photoDate = targetMetaDiv.getElementsByClass(HtmlConstants.TARGET_DATE_CLASS).last().text();
 
                 Photo photo = new Photo(photoUrl, DateUtil.convertDateStringToDate(photoDate));
 
