@@ -1,8 +1,8 @@
-package com.tatar.burgercrawler.model.response;
+package com.tatar.burgercrawler.model;
 
 import java.io.Serializable;
 
-public class BurgerAPIResponse implements Serializable {
+public class BurgerUrl implements Serializable {
 
     private String urlWithBurger;
 
