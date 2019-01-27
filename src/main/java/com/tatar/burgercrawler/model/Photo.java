@@ -1,8 +1,9 @@
 package com.tatar.burgercrawler.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Photo implements Comparable<Photo> {
+public class Photo implements Serializable, Comparable<Photo> {
 
     private String url;
     private Date date;

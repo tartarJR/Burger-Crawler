@@ -1,8 +1,9 @@
 package com.tatar.burgercrawler.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Venue {
+public class Venue implements Serializable {
 
     private String id;
     private String name;
