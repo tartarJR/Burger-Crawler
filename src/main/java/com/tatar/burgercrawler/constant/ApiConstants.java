@@ -20,5 +20,5 @@ public class ApiConstants {
             "&v=" + VERSION +
             "&near=" + NEAR +
             "&categoryId=" + CATEGORY_ID +
-            "&offset=30&limit=10";
+            "&offset=30&limit=30";
 }
