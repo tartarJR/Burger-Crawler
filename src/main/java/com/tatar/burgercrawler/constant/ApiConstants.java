@@ -2,7 +2,9 @@ package com.tatar.burgercrawler.constant;
 
 public class ApiConstants {
 
-    private static final String BASE_URL = "https://api.foursquare.com/v2/venues/explore?";
+    public static final String ML_BASE_URL = "https://pplkdijj76.execute-api.eu-west-1.amazonaws.com/prod/recognize";
+
+    private static final String FS_BASE_URL = "https://api.foursquare.com/v2/venues/explore?";
 
     private static final String CLIENT_ID = ""; // TODO need a more secure way to store this
     private static final String CLIENT_SECRET = ""; // TODO need a more secure way to store this
@@ -12,10 +14,11 @@ public class ApiConstants {
     private static final String OFFSET = "60";
     private static final String LIMIT = "30";
 
-    public static final String REQUEST_URL = BASE_URL +
+    public static final String REQUEST_URL = FS_BASE_URL +
             "client_id=" + CLIENT_ID +
             "&client_secret=" + CLIENT_SECRET +
             "&v=" + VERSION +
             "&near=" + NEAR +
-            "&categoryId=" + CATEGORY_ID;
+            "&categoryId=" + CATEGORY_ID +
+            "&offset=30&limit=30";
 }
