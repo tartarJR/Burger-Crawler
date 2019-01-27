@@ -28,7 +28,7 @@ public final class HtmlUtil {
 
         try {
 
-            logger.info("VENUE URL: " + HtmlConstants.BASE_URL + convertNameToSlug(venueName) + venueId + HtmlConstants.PATH_PHOTOS);
+            //logger.info("VENUE URL: " + HtmlConstants.BASE_URL + convertNameToSlug(venueName) + venueId + HtmlConstants.PATH_PHOTOS);
 
             Document doc = Jsoup.connect(HtmlConstants.BASE_URL + convertNameToSlug(venueName) + venueId + HtmlConstants.PATH_PHOTOS).timeout(360 * 1000).get();
             Elements photosBlockDiv = doc.select(HtmlConstants.TARGET_DIV);
