@@ -22,7 +22,7 @@ public final class DateUtil {
 
     public static Date convertDateStringToDate(String dateString) {
 
-        DateFormat format = new SimpleDateFormat(DateConstants.DATE_FORMAT, Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat(DateConstants.DATE_FORMAT, new Locale("tr"));
         Date date;
 
         try {
