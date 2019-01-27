@@ -3,14 +3,14 @@ package com.tatar.burgercrawler.model;
 public class ApiResponse {
 
     private String venueName;
-    private String latestBurgerUrl;
+    private String latestBurgerPhotoUrl;
 
     public ApiResponse() {
     }
 
-    public ApiResponse(String venueName, String latestBurgerUrl) {
+    public ApiResponse(String venueName, String latestBurgerPhotoUrl) {
         this.venueName = venueName;
-        this.latestBurgerUrl = latestBurgerUrl;
+        this.latestBurgerPhotoUrl = latestBurgerPhotoUrl;
     }
 
     public String getVenueName() {
@@ -21,11 +21,19 @@ public class ApiResponse {
         this.venueName = venueName;
     }
 
-    public String getLatestBurgerUrl() {
-        return latestBurgerUrl;
+    public String getlatestBurgerPhotoUrl() {
+        return latestBurgerPhotoUrl;
     }
 
-    public void setLatestBurgerUrl(String latestBurgerUrl) {
-        this.latestBurgerUrl = latestBurgerUrl;
+    public void setlatestBurgerPhotoUrl(String latestBurgerPhotoUrl) {
+        this.latestBurgerPhotoUrl = latestBurgerPhotoUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "ApiResponse{" +
+                "venueName='" + venueName + '\'' +
+                ", latestBurgerPhotoUrl='" + latestBurgerPhotoUrl + '\'' +
+                '}';
     }
 }
