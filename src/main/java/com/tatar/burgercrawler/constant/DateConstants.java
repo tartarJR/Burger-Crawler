@@ -7,9 +7,9 @@ public class DateConstants {
 
     public static final String SPLIT_REGEX = " ";
 
-    public static final String DAY = "gün";
-    public static final String WEEK = "hafta";
-    public static final String MONTH = "ay";
+    public static final String DAY = "days";
+    public static final String WEEK = "weeks";
+    public static final String MONTH = "months";
     public static final int DAYS_IN_WEEK = 7;
 
 }
