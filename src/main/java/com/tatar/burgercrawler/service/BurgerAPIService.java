@@ -36,7 +36,7 @@ public class BurgerAPIService {
 
         HttpEntity<String> entity = new HttpEntity<>(urlsJson.toString(), headers);
 
-        BurgerUrl response = null;
+        BurgerUrl response = new BurgerUrl("");
 
         try {
             response = restTemplate.postForObject(ApiConstants.ML_BASE_URL, entity, BurgerUrl.class);

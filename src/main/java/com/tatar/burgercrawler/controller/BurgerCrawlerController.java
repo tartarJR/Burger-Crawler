@@ -50,11 +50,9 @@ public class BurgerCrawlerController {
 
         try {
             for (CompletableFuture<ApiResponse> responseFuture : completableFutures) {
-
                 if (!responseFuture.get().getlatestBurgerPhotoUrl().equals("")) {
                     burgerVenues.add(responseFuture.get());
                 }
-
             }
         } catch (InterruptedException | ExecutionException e) {
             logger.error(e.getMessage(), e);

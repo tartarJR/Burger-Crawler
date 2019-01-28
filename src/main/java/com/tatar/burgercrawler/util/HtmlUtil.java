@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class HtmlUtil {
 
@@ -22,19 +23,16 @@ public final class HtmlUtil {
         throw new UnsupportedOperationException();
     }
 
-    public static List<Photo> getPhotoList(String venueId, String venueName) {
+    public static List<String> getPhotoList(String venueId, String venueName) {
 
         List<Photo> photoList = new ArrayList<>();
 
         try {
 
-            String venueUrl = getVenueUrl(venueId, venueName);
-
-            logger.info("Venue URL: " + venueUrl);
-
-            Document doc = Jsoup.connect(venueUrl)
+            Document doc = Jsoup.connect(getVenueUrl(venueId, venueName))
                     .userAgent(HtmlConstants.USER_AGENT)
                     .timeout(HtmlConstants.TIME_OUT)
+                    .ignoreHttpErrors(true)
                     .get();
 
             Elements images = doc.select(HtmlConstants.TARGET_IMAGES);
@@ -57,7 +55,11 @@ public final class HtmlUtil {
 
         Collections.sort(photoList);
 
-        return photoList;
+        List<String> photoUrlList = photoList.stream()
+                .map(Photo::getUrl)
+                .collect(Collectors.toList());
+
+        return photoUrlList;
     }
 
     private static String getVenueUrl(String venueId, String venueName) {
