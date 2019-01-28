@@ -27,8 +27,17 @@ public final class HtmlUtil {
         List<Photo> photoList = new ArrayList<>();
 
         try {
-            Document doc = Jsoup.connect(HtmlConstants.BASE_URL + convertNameToSlug(venueName) + venueId + HtmlConstants.PATH_PHOTOS).userAgent("Mozilla").timeout(720 * 1000).get();
-            Elements images = doc.select("div.photosBlock div.photo:lt(10)");
+
+            String venueUrl = getVenueUrl(venueId, venueName);
+
+            logger.info("Venue URL: " + venueUrl);
+
+            Document doc = Jsoup.connect(venueUrl)
+                    .userAgent(HtmlConstants.USER_AGENT)
+                    .timeout(HtmlConstants.TIME_OUT)
+                    .get();
+
+            Elements images = doc.select(HtmlConstants.TARGET_IMAGES);
 
             for (Element image : images) {
                 Element targetPhoto = image.getElementsByClass(HtmlConstants.TARGET_PHOTO_CLASS).first();
@@ -40,18 +49,18 @@ public final class HtmlUtil {
                 Photo photo = new Photo(photoUrl, DateUtil.convertDateStringToDate(photoDate));
 
                 photoList.add(photo);
-
-                Collections.sort(photoList);
             }
 
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
 
+        Collections.sort(photoList);
+
         return photoList;
     }
 
-    private static String convertNameToSlug(String venueName) {
+    private static String getVenueUrl(String venueId, String venueName) {
 
         String[] nameWords = venueName.toLowerCase().split(" ");
 
@@ -80,7 +89,7 @@ public final class HtmlUtil {
             slug = slugBuilder.toString();
         }
 
-        return slug + "/";
+        return HtmlConstants.BASE_URL + slug + "/" + venueId + HtmlConstants.PATH_PHOTOS;
     }
 
 }
