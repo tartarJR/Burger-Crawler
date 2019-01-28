@@ -11,8 +11,6 @@ public class ApiConstants {
     private static final String VERSION = "20180323";
     private static final String NEAR = "Tartu";
     private static final String CATEGORY_ID = "4d4b7105d754a06374d81259";
-    private static final String OFFSET = "60";
-    private static final String LIMIT = "30";
 
     public static final String REQUEST_URL = BASE_URL +
             "client_id=" + CLIENT_ID +
@@ -20,5 +18,5 @@ public class ApiConstants {
             "&v=" + VERSION +
             "&near=" + NEAR +
             "&categoryId=" + CATEGORY_ID +
-            "&offset=60&limit=10";
+            "&offset=60&limit=7";
 }

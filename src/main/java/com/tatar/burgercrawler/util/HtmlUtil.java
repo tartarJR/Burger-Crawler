@@ -55,11 +55,9 @@ public final class HtmlUtil {
 
         Collections.sort(photoList);
 
-        List<String> photoUrlList = photoList.stream()
+        return photoList.stream()
                 .map(Photo::getUrl)
                 .collect(Collectors.toList());
-
-        return photoUrlList;
     }
 
     private static String getVenueUrl(String venueId, String venueName) {
