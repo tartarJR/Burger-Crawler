@@ -30,8 +30,6 @@ public class VenueService {
             requestUrl = requestUrl + ApiConstants.OFFSET + offset;
         }
 
-        logger.info("REQUEST URL:" + requestUrl);
-
         String rawJson = restTemplate.getForObject(requestUrl, String.class); // raw JSON response from Foursquare API
 
         // return a list of Venue(name and id only) from response JSON
