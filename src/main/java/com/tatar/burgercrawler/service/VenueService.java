@@ -22,9 +22,17 @@ public class VenueService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public List<Venue> getVenues() {
+    public List<Venue> getVenues(String offset) {
 
-        String rawJson = restTemplate.getForObject(ApiConstants.REQUEST_URL, String.class); // raw JSON response from Foursquare API
+        String requestUrl = ApiConstants.REQUEST_URL;
+
+        if (offset != null) {
+            requestUrl = requestUrl + ApiConstants.OFFSET + offset;
+        }
+
+        logger.info("REQUEST URL:" + requestUrl);
+
+        String rawJson = restTemplate.getForObject(requestUrl, String.class); // raw JSON response from Foursquare API
 
         // return a list of Venue(name and id only) from response JSON
         return JsonUtil.getVenueList(rawJson);

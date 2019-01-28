@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -30,11 +31,11 @@ public class BurgerCrawlerController {
     }
 
     @GetMapping("/venues/burger-venues")
-    public List<ApiResponse> getBurgerVenues() {
+    public List<ApiResponse> getBurgerVenues(@RequestParam(value = "offset", required = false) String offset) {
 
         long startTime = System.nanoTime();
 
-        List<Venue> venues = venueService.getVenues();
+        List<Venue> venues = venueService.getVenues(offset);
 
         List<CompletableFuture<ApiResponse>> completableFutures = new ArrayList<>();
 
