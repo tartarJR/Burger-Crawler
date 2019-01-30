@@ -27,6 +27,12 @@ public class BurgerAPIService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
+    /**
+     * Sends a post request to ML API for recognizing burgers
+     *
+     * @param photoUrls URLs of burger photos for a specific Venue.
+     * @return the ML API response. Burger photo URL or Not Found
+     */
     public BurgerUrl recognizeLatestBurgerImage(List<String> photoUrls) {
 
         BurgerUrl response = new BurgerUrl("");

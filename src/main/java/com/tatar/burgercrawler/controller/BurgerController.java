@@ -25,6 +25,9 @@ public class BurgerController {
 
     @GetMapping("/venues/burger-venues")
     public List<ApiResponse> getBurgerVenues(@RequestParam(value = "offset", required = false) String offset) {
+
+        logger.info("request received on getBurgerVenues..");
+
         return burgerService.getBurgerVenues(offset);
     }
 

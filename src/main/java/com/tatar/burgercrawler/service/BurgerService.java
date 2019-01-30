@@ -27,12 +27,26 @@ public class BurgerService {
         this.crawlerService = crawlerService;
     }
 
+    /**
+     * Integrates other 3 services.
+     * Gets venues that categorized as restaurants and I get their Foursquare ids along with names.
+     * Crawls the each venue's Foursquare page for photos and their upload dates.
+     * Sorts images by upload dates because ML API replies with the first burger image found
+     * Sends sorted images to ML API and gets the response.
+     * Returns the burger venues with venue name and latest burger URL(the list of ApiResponse)
+     *
+     * @param offset value for pagination. To be sent to Foursquare API, not required.
+     * @return the image URL list of the given venue
+     */
     @Cacheable
     public List<ApiResponse> getBurgerVenues(String offset) {
-        long startTime = System.nanoTime();
+        //long startTime = System.nanoTime();
+
+        logger.info("retrieving venues from Foursquare API..");
 
         List<Venue> venues = fsAPIService.getVenues(offset);
 
+        logger.info("crawling for photos..");
         List<CompletableFuture<ApiResponse>> completableFutures = new ArrayList<>();
 
         for (Venue venue : venues) {
@@ -43,6 +57,7 @@ public class BurgerService {
         // wait until they are all done
         CompletableFuture.allOf(completableFutures.toArray(new CompletableFuture[0])).join();
 
+        logger.info("retrieving burger venues..");
         List<ApiResponse> burgerVenues = new ArrayList<>();
 
         try {
@@ -55,10 +70,12 @@ public class BurgerService {
             logger.error(e.getMessage(), e);
         }
 
-        long endTime = System.nanoTime();
-        long timeElapsed = endTime - startTime;
+        logger.info("received burger venues..");
 
-        logger.info("Execution time in seconds : " + timeElapsed / 1000000000);
+        //long endTime = System.nanoTime();
+        //long timeElapsed = endTime - startTime;
+
+        //logger.info("Execution time in seconds : " + timeElapsed / 1000000000);
 
         return burgerVenues;
     }

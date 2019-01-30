@@ -17,6 +17,13 @@ public class CrawlerService {
         this.burgerAPIService = burgerAPIService;
     }
 
+    /**
+     * Crawls the Foursquare page of the given venue for photos. Works asynchronously.
+     *
+     * @param venueId   The venue’s  Foursquare id.
+     * @param venueName The venue’s  Foursquare name.
+     * @return a CompletableFuture that contains the response of the ML API
+     */
     @Async("taskExecutor")
     public CompletableFuture<ApiResponse> getPhotoList(String venueId, String venueName) {
 

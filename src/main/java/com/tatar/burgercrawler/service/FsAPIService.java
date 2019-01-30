@@ -22,6 +22,12 @@ public class FsAPIService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
+    /**
+     * Retrieves venues from Foursquare API
+     *
+     * @param offset value for pagination. To be sent to Foursquare API, not required.
+     * @return list of Venue objects
+     */
     public List<Venue> getVenues(String offset) {
 
         String requestUrl = ApiConstants.REQUEST_URL;
@@ -30,7 +36,11 @@ public class FsAPIService {
             requestUrl = requestUrl + ApiConstants.OFFSET + offset;
         }
 
+        logger.info("Request URL: " + requestUrl);
+
         String rawJson = restTemplate.getForObject(requestUrl, String.class); // raw JSON response from Foursquare API
+
+        logger.info("Response: " + rawJson);
 
         // return a list of Venue(name and id only) from response JSON
         return JsonUtil.getVenueList(rawJson);
