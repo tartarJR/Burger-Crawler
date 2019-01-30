@@ -1,46 +1,38 @@
-package com.tatar.burgercrawler.controller;
+package com.tatar.burgercrawler.service;
 
 import com.tatar.burgercrawler.model.ApiResponse;
 import com.tatar.burgercrawler.model.Venue;
-import com.tatar.burgercrawler.service.BurgerCrawlerService;
-import com.tatar.burgercrawler.service.VenueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-@RestController
-@RequestMapping("/api")
-public class BurgerCrawlerController {
+@Service
+public class BurgerService {
 
-    private static final Logger logger = LoggerFactory.getLogger(BurgerCrawlerController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BurgerService.class);
 
-    private final VenueService venueService;
-    private final BurgerCrawlerService burgerCrawlerService;
+    private final FsAPIService fsAPIService;
+    private final CrawlerService crawlerService;
 
-    public BurgerCrawlerController(VenueService venueService, BurgerCrawlerService burgerCrawlerService) {
-        this.venueService = venueService;
-        this.burgerCrawlerService = burgerCrawlerService;
+    public BurgerService(FsAPIService fsAPIService, CrawlerService crawlerService) {
+        this.fsAPIService = fsAPIService;
+        this.crawlerService = crawlerService;
     }
 
-    @GetMapping("/venues/burger-venues")
-    public List<ApiResponse> getBurgerVenues(@RequestParam(value = "offset", required = false) String offset) {
-
+    public List<ApiResponse> getBurgerVenues(String offset) {
         long startTime = System.nanoTime();
 
-        List<Venue> venues = venueService.getVenues(offset);
+        List<Venue> venues = fsAPIService.getVenues(offset);
 
         List<CompletableFuture<ApiResponse>> completableFutures = new ArrayList<>();
 
         for (Venue venue : venues) {
-            CompletableFuture<ApiResponse> responseFuture = burgerCrawlerService.getPhotoList(venue.getId(), venue.getName());
+            CompletableFuture<ApiResponse> responseFuture = crawlerService.getPhotoList(venue.getId(), venue.getName());
             completableFutures.add(responseFuture);
         }
 
@@ -66,5 +58,4 @@ public class BurgerCrawlerController {
 
         return burgerVenues;
     }
-
 }

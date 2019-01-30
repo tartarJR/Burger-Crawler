@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class BurgerCrawlerService {
+public class CrawlerService {
 
     private final BurgerAPIService burgerAPIService;
 
-    public BurgerCrawlerService(BurgerAPIService burgerAPIService) {
+    public CrawlerService(BurgerAPIService burgerAPIService) {
         this.burgerAPIService = burgerAPIService;
     }
 

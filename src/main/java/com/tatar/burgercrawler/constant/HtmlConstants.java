@@ -4,7 +4,7 @@ public class HtmlConstants {
 
     public static final String BASE_URL = "https://tr.foursquare.com/v/";
     public static final String PATH_PHOTOS = "/photos";
-    public static final String TARGET_IMAGES = "div.photosBlock div.photo:lt(10)";
+    public static final String TARGET_IMAGES = "div.photosBlock div.photo:lt(20)";
     public static final String TARGET_PHOTO_CLASS = "mainPhoto";
     public static final String TARGET_PHOTO_SRC = "src";
     public static final String TARGET_META_CLASS = "meta";

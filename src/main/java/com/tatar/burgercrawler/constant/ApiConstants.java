@@ -20,5 +20,5 @@ public class ApiConstants {
             "&client_secret=" + CLIENT_SECRET +
             "&v=" + VERSION +
             "&near=" + NEAR +
-            "&categoryId=" + CATEGORY_ID + LIMIT;
+            "&categoryId=" + CATEGORY_ID;
 }

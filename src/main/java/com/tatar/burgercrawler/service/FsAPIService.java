@@ -12,13 +12,13 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class VenueService {
+public class FsAPIService {
 
-    private static final Logger logger = LoggerFactory.getLogger(VenueService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FsAPIService.class);
 
     private final RestTemplate restTemplate;
 
-    public VenueService(RestTemplateBuilder restTemplateBuilder) {
+    public FsAPIService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
