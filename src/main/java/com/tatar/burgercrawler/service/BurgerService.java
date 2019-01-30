@@ -4,6 +4,8 @@ import com.tatar.burgercrawler.model.ApiResponse;
 import com.tatar.burgercrawler.model.Venue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Service
+@CacheConfig(cacheNames = {"venues"})
 public class BurgerService {
 
     private static final Logger logger = LoggerFactory.getLogger(BurgerService.class);
@@ -24,6 +27,7 @@ public class BurgerService {
         this.crawlerService = crawlerService;
     }
 
+    @Cacheable
     public List<ApiResponse> getBurgerVenues(String offset) {
         long startTime = System.nanoTime();
 
