@@ -23,20 +23,30 @@ public final class HtmlUtil {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Returns the list of image URLs for the given venue URL.
+     *
+     * @param venueId   The venue’s  Foursquare id.
+     * @param venueName The venue’s  Foursquare name.
+     * @return the image URL list of the given venue
+     */
     public static List<String> getPhotoUrlList(String venueId, String venueName) {
 
         List<Photo> photoList = new ArrayList<>();
 
         try {
 
+            // get the html page
             Document doc = Jsoup.connect(getVenueUrl(venueId, venueName))
                     .userAgent(HtmlConstants.USER_AGENT)
                     .timeout(HtmlConstants.TIME_OUT)
                     .ignoreHttpErrors(true)
                     .get();
 
+            // get image elements from the html page
             Elements images = doc.select(HtmlConstants.TARGET_IMAGES);
 
+            // get image URL and date for each image element
             for (Element image : images) {
                 Element targetPhoto = image.getElementsByClass(HtmlConstants.TARGET_PHOTO_CLASS).first();
                 Element targetMetaDiv = image.getElementsByClass(HtmlConstants.TARGET_META_CLASS).first();
@@ -53,13 +63,25 @@ public final class HtmlUtil {
             logger.error(e.getMessage(), e);
         }
 
+        /*
+         sort Photo objects based on date field
+         ML API replies with the first burger image found
+        */
         Collections.sort(photoList);
 
+        // return only image URLs
         return photoList.stream()
                 .map(Photo::getUrl)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns the venue URL to be crawled.
+     *
+     * @param venueId   The venue’s  Foursquare id.
+     * @param venueName The venue’s  Foursquare name.
+     * @return the Foursquare URL of the venue
+     */
     private static String getVenueUrl(String venueId, String venueName) {
 
         String[] nameWords = venueName.toLowerCase().split(" ");
@@ -69,6 +91,7 @@ public final class HtmlUtil {
         if (nameWords.length == 0) {
             slug = venueName.toLowerCase();
         } else {
+            // split the venue name and remove unused characters for the URL creation
             StringBuilder slugBuilder = new StringBuilder();
 
             for (int i = 0; i < nameWords.length; i++) {

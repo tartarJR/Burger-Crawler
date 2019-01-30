@@ -4,26 +4,28 @@ import com.tatar.burgercrawler.constant.JsonConstants;
 import com.tatar.burgercrawler.model.Venue;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public final class JsonUtil {
 
-    private static final Logger log = LoggerFactory.getLogger(JsonUtil.class);
-
     private JsonUtil() {
         throw new UnsupportedOperationException();
     }
 
-    // TODO find a more efficient way to parse JSON (Gson or Jackson)
+    /**
+     * Transforms JSON to list of Venue objects and returns it
+     *
+     * @param rawJson String representation of Foursquare API response.
+     * @return list of Venue objects
+     */
     public static List<Venue> getVenueList(String rawJson) {
 
         List<Venue> venueList = new ArrayList<>();
 
         if (rawJson != null) {
+            // TODO find a more efficient way to parse JSON (Gson or Jackson)
             JSONObject fourSquareResponse = new JSONObject(rawJson); // Transform raw JSON String to JSONObject for easy processing
             JSONObject response = fourSquareResponse.getJSONObject(JsonConstants.KEY_RESPONSE); // Extract response JSONObject from fourSquareResponse
             JSONArray groupsJsonArray = response.getJSONArray(JsonConstants.KEY_GROUPS); // Extract groups JSONArray from response
@@ -35,7 +37,8 @@ public final class JsonUtil {
             JSONObject recommendedPlacesJson = groupsJsonArray.getJSONObject(0);
             JSONArray itemsJsonArray = recommendedPlacesJson.getJSONArray(JsonConstants.KEY_ITEMS); // extract items array from recommendedPlaces JSONObject
 
-            // 'iterate through items JSONArray array and get item ids
+            // iterate through items JSONArray array and get item ids and item names
+            // transform json to list of Venue objects and return it
             for (int i = 0; i < itemsJsonArray.length(); i++) {
 
                 JSONObject itemJson = itemsJsonArray.getJSONObject(i);

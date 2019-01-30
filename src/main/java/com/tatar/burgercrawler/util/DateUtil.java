@@ -19,23 +19,32 @@ public final class DateUtil {
         throw new UnsupportedOperationException();
     }
 
-
+    /**
+     * Takes a date String transforms it to Java Date of given date format
+     *
+     * @param dateString A date string.
+     * @return Java Date transformed from the dateString
+     */
     public static Date convertDateStringToDate(String dateString) {
 
-        DateFormat format = new SimpleDateFormat(DateConstants.DATE_FORMAT, new Locale("tr"));
+        DateFormat format = new SimpleDateFormat(DateConstants.DATE_FORMAT, new Locale("tr")); // TODO find a solution for dynamic localization
         Date date;
 
         try {
             date = format.parse(dateString);
         } catch (ParseException e) {
-            //log.error(e.getMessage(), e);
             date = convertStringToDate(dateString);
         }
 
         return date;
     }
 
-    // Converts a sentence(e.g. "4 days ago") to Java Date.
+    /**
+     * Converts a sentence(e.g. "4 days ago") to Java Date.
+     *
+     * @param dateString A date string.
+     * @return Java Date transformed from the sentence
+     */
     private static Date convertStringToDate(String dateString) {
 
         String[] dateStringArray = dateString.split(DateConstants.SPLIT_REGEX);
