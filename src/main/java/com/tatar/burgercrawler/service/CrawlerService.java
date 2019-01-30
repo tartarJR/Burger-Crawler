@@ -20,7 +20,7 @@ public class CrawlerService {
     @Async("taskExecutor")
     public CompletableFuture<ApiResponse> getPhotoList(String venueId, String venueName) {
 
-        BurgerUrl response = burgerAPIService.post(HtmlUtil.getPhotoList(venueId, venueName));
+        BurgerUrl response = burgerAPIService.recognizeLatestBurgerImage(HtmlUtil.getPhotoUrlList(venueId, venueName));
 
         String latestBurgerUrl = response.getUrlWithBurger();
 

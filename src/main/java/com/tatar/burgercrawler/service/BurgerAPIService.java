@@ -1,6 +1,7 @@
 package com.tatar.burgercrawler.service;
 
 import com.tatar.burgercrawler.constant.ApiConstants;
+import com.tatar.burgercrawler.constant.JsonConstants;
 import com.tatar.burgercrawler.model.BurgerUrl;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -26,22 +27,24 @@ public class BurgerAPIService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public BurgerUrl post(List<String> photoUrls) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        JSONObject urlsJson = new JSONObject();
-        urlsJson.put("urls", photoUrls);
-
-        HttpEntity<String> entity = new HttpEntity<>(urlsJson.toString(), headers);
+    public BurgerUrl recognizeLatestBurgerImage(List<String> photoUrls) {
 
         BurgerUrl response = new BurgerUrl("");
 
-        try {
-            response = restTemplate.postForObject(ApiConstants.ML_BASE_URL, entity, BurgerUrl.class);
-        } catch (HttpClientErrorException e) {
-            logger.error(e.getStatusCode().toString());
+        if (!photoUrls.isEmpty()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            JSONObject urlsJson = new JSONObject();
+            urlsJson.put(JsonConstants.ML_API_URL_LIST_NAME, photoUrls);
+
+            HttpEntity<String> entity = new HttpEntity<>(urlsJson.toString(), headers);
+
+            try {
+                response = restTemplate.postForObject(ApiConstants.ML_BASE_URL, entity, BurgerUrl.class);
+            } catch (HttpClientErrorException e) {
+                logger.error(e.getStatusCode().toString());
+            }
         }
 
         return response;

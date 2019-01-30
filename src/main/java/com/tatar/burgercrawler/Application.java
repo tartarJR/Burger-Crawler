@@ -15,8 +15,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @EnableCaching
 public class Application {
 
-    private static final Logger logger = LoggerFactory.getLogger(Application.class);
-
     @Bean(name = "taskExecutor")
     public TaskExecutor workExecutor() {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();

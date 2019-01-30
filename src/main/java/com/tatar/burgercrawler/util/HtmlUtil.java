@@ -23,7 +23,7 @@ public final class HtmlUtil {
         throw new UnsupportedOperationException();
     }
 
-    public static List<String> getPhotoList(String venueId, String venueName) {
+    public static List<String> getPhotoUrlList(String venueId, String venueName) {
 
         List<Photo> photoList = new ArrayList<>();
 
@@ -47,8 +47,8 @@ public final class HtmlUtil {
                 Photo photo = new Photo(photoUrl, DateUtil.convertDateStringToDate(photoDate));
 
                 photoList.add(photo);
-            }
 
+            }
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
