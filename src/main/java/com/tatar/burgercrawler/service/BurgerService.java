@@ -22,6 +22,7 @@ public class BurgerService {
     private final FsAPIService fsAPIService;
     private final CrawlerService crawlerService;
 
+    // constructor injection
     public BurgerService(FsAPIService fsAPIService, CrawlerService crawlerService) {
         this.fsAPIService = fsAPIService;
         this.crawlerService = crawlerService;
@@ -29,10 +30,11 @@ public class BurgerService {
 
     /**
      * Integrates other 3 services.
-     * Gets venues that categorized as restaurants and I get their Foursquare ids along with names.
-     * Crawls the each venue's Foursquare page for photos and their upload dates.
+     * Gets venues that categorized as restaurants and retrieves their Foursquare ids along with names.
+     * Crawls each venue's Foursquare page for photos and their upload dates.
      * Sorts images by upload dates because ML API replies with the first burger image found
      * Sends sorted images to ML API and gets the response.
+     * Called on app start up and the result is cached
      * Returns the burger venues with venue name and latest burger URL(the list of ApiResponse)
      *
      * @param offset value for pagination. To be sent to Foursquare API, not required.
@@ -40,15 +42,18 @@ public class BurgerService {
      */
     @Cacheable
     public List<ApiResponse> getBurgerVenues(String offset) {
-        //long startTime = System.nanoTime();
 
         logger.info("retrieving venues from Foursquare API..");
 
+        // retrieve venues from FourSquare API
         List<Venue> venues = fsAPIService.getVenues(offset);
 
         logger.info("crawling for photos..");
+
+        // list of completableFutures. Each async process of CrawlerService will be stored here
         List<CompletableFuture<ApiResponse>> completableFutures = new ArrayList<>();
 
+        // get photos for each venue asynchronously
         for (Venue venue : venues) {
             CompletableFuture<ApiResponse> responseFuture = crawlerService.getPhotoList(venue.getId(), venue.getName());
             completableFutures.add(responseFuture);
@@ -60,6 +65,7 @@ public class BurgerService {
         logger.info("retrieving burger venues..");
         List<ApiResponse> burgerVenues = new ArrayList<>();
 
+        // get each response from future object and return them as a list of ApiResponse object
         try {
             for (CompletableFuture<ApiResponse> responseFuture : completableFutures) {
                 if (!responseFuture.get().getlatestBurgerPhotoUrl().equals("")) {
@@ -71,11 +77,6 @@ public class BurgerService {
         }
 
         logger.info("received burger venues..");
-
-        //long endTime = System.nanoTime();
-        //long timeElapsed = endTime - startTime;
-
-        //logger.info("Execution time in seconds : " + timeElapsed / 1000000000);
 
         return burgerVenues;
     }
