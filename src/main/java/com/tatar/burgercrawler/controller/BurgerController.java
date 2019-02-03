@@ -4,10 +4,7 @@ import com.tatar.burgercrawler.model.ApiResponse;
 import com.tatar.burgercrawler.service.BurgerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +20,7 @@ public class BurgerController {
         this.burgerService = burgerService;
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping("/venues/burger-venues")
     public List<ApiResponse> getBurgerVenues(@RequestParam(value = "offset", required = false) String offset) {
 
