@@ -88,7 +88,7 @@ public final class DateUtil {
             try {
                 month = new SimpleDateFormat("MMM", new Locale("tr")).parse(monthName);
             } catch (ParseException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
 
             Calendar cal = Calendar.getInstance();
